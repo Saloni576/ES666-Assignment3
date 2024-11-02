@@ -208,7 +208,6 @@ class PanaromaStitcher:
     def make_panaroma_for_images_in(self, path):
         self.image_file_paths = sorted(glob.glob(os.path.join(path, '*')))
         total_images = len(self.image_file_paths)
-        print(f"Found {total_images} images for stitching.")
         self.current_scene_id = self._get_scene_id(self.image_file_paths[0])
         output_directory = f'outputs/scene{self.current_scene_id}/custom'
         os.makedirs(output_directory, exist_ok=True)
@@ -273,7 +272,6 @@ class PanaromaStitcher:
         if source_image is None or destination_image is None:
             print(f"Error: Could not read image {self.image_file_paths[source_index]} or {self.image_file_paths[destination_index]}")
             return previous_homography
-        print(f"Stitching: {os.path.basename(self.image_file_paths[source_index])} -> {os.path.basename(self.image_file_paths[destination_index])}")
         source_resized_image = cv2.resize(source_image, self.warp_dimensions)
         destination_resized_image = cv2.resize(destination_image, self.warp_dimensions)
         keypoint_pairs, source_points, destination_points = extract_and_match_keypoints(destination_resized_image, source_resized_image, max_keypoint_matches=self.max_features_count)
